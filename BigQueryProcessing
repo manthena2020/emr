@@ -1,0 +1,83 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/manthena2020/emr/blob/main/BigQueryProcessing\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "import pandas as pd\n",
+        "from google.cloud import storage\n",
+        "\n",
+        "# Initialize a GCS client\n",
+        "client = storage.Client()\n",
+        "\n",
+        "# Specify the GCS bucket and file path (without gs:// prefix)\n",
+        "bucket_name = 'deeksha'\n",
+        "file_path = 'ravi/depmaxsal.csv'\n",
+        "\n",
+        "# Create a reference to the GCS bucket and file\n",
+        "bucket = client.get_bucket(bucket_name)\n",
+        "blob = bucket.blob(file_path)\n",
+        "\n",
+        "# Download the CSV file to the /content directory\n",
+        "temp_file = '/content/temp.csv'  # Use the appropriate path in your environment\n",
+        "blob.download_to_filename(temp_file)\n",
+        "\n",
+        "# Read the CSV file into a Pandas DataFrame\n",
+        "df = pd.read_csv(temp_file)\n",
+        "\n",
+        "# Print the DataFrame\n",
+        "print(df.to_markdown(index=False))\n",
+        "\n",
+        "# You can now work with the 'df' DataFrame as needed"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "4RKe41JpDvJz",
+        "outputId": "a0408774-adb7-4002-dd20-8863f075f588"
+      },
+      "execution_count": 37,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "|   2 | Jane   | Smith    | IT        |   60000.00 |\n",
+            "|----:|:-------|:---------|:----------|-----------:|\n",
+            "|   3 | Bob    | Johnson  | Finance   |      60000 |\n",
+            "|   4 | Alice  | Brown    | Marketing |      52000 |\n",
+            "|   5 | Eva    | Wilson   | Sales     |      48000 |\n",
+            "|   6 | Ravi   | Manthena | HR        |      70000 |\n"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "colab": {
+      "cell_execution_strategy": "setup",
+      "name": "BigQuery bquxjob_57219752_18ad4c6835f",
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "display_name": "Python 3",
+      "name": "python3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}
